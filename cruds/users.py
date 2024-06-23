@@ -3,6 +3,13 @@ from logging import getLogger
 import logging
 from azure.cosmos import CosmosClient
 import json
+from dotenv import load_dotenv
+import os
+from azure.storage.blob import BlobServiceClient
+import os
+import base64
+import uuid
+import json
 
 logger = getLogger(__name__)
 
@@ -19,7 +26,18 @@ database = client.get_database_client(database_name)
 container_Users = database.get_container_client("Users")
 container_Rooms = database.get_container_client("Rooms")
 
+load_dotenv()
+connect_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
+blob_service_client = BlobServiceClient.from_connection_string(connect_str)
+
+# コンテナ名
+container_name = "images"
+
+# コンテナクライアントの作成
+container_client = blob_service_client.get_container_client(container_name)
+
 def create_user(req: func.HttpRequest) -> func.HttpResponse:
+
     logging.info('Handling POST request')
 
     try:
@@ -53,12 +71,35 @@ def create_user(req: func.HttpRequest) -> func.HttpResponse:
         )
     
     room_id = req_body.get('room_id')
-    if not images:
+    if not room_id:
         return func.HttpResponse(
             "Room is required",
             status_code=400
         )
-    
+
+    # Process images
+    images_data = []
+    for image in images:
+        image_data = base64.b64decode(image["image_base64"])
+        images_data.append(image_data)
+
+    image_urls = []
+    for image in images_data:
+        image_filename = str(uuid.uuid4()) + ".jpg"
+        blob_client = container_client.get_blob_client(image_filename)
+
+        # Convert image to bytes and upload to Blob Storage
+        blob_client.upload_blob(image)
+
+        # Store URL of the image
+        image_url = blob_client.url
+        image_urls.append(image_url)
+
+    #jsonを入れかえたい
+    for i, image in enumerate(images):
+        image["url"] = image_urls[i]
+        image.pop("image_base64")
+
     #データベースに追加
     new_user = {
         'id': user_id,
@@ -71,7 +112,7 @@ def create_user(req: func.HttpRequest) -> func.HttpResponse:
     return func.HttpResponse(
         json.dumps(new_user, default=str),
         mimetype="application/json",
-        status_code=201
+        status_code=200
     )
 
 def get_user(req: func.HttpRequest, user_id: str) -> func.HttpResponse:

@@ -5,8 +5,8 @@ import cruds.rooms
 app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
     
 @app.route(route="users", methods=["POST"])
-async def create_users(req: func.HttpRequest) -> func.HttpResponse:
-    return cruds.users.create_user(req)
+def create_users(req: func.HttpRequest) -> func.HttpResponse:
+        return cruds.users.create_user(req)
 
 
 @app.route(route="users/{user_id}", methods=["GET"])
