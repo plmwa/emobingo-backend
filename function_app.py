@@ -14,6 +14,11 @@ async def get_users(req: func.HttpRequest) -> func.HttpResponse:
     user_id = req.route_params.get('user_id')
     return cruds.users.get_user(req,user_id)
     
+@app.route(route="users/{user_id}", methods=["DELETE"])
+async def delete_users(req: func.HttpRequest) -> func.HttpResponse:
+    user_id = req.route_params.get('user_id')
+    return cruds.users.delete_user(req,user_id)
+
 @app.route(route="rooms", methods=["POST"])
 async def create_rooms(req: func.HttpRequest) -> func.HttpResponse:
     if req.method == "POST":

@@ -128,3 +128,19 @@ def get_user(req: func.HttpRequest, user_id: str) -> func.HttpResponse:
         mimetype="application/json",
         status_code=200
     )
+
+def delete_user(req: func.HttpRequest, user_id: str) -> func.HttpResponse:
+    logging.info('Handling DELETE user request')
+    query = f"SELECT * FROM c WHERE c.id = '{user_id}'"
+    items = list(container_Users.query_items(query=query, enable_cross_partition_query=True))
+
+    if not items:
+        return func.HttpResponse("User not found", status_code=404)
+
+    container_Users.delete_item(item=items[0],partition_key=items[0]["id"])
+
+    return func.HttpResponse(
+        json.dumps(items[0], default=str),
+        mimetype="application/json",
+        status_code=200
+    )

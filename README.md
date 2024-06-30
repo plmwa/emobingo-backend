@@ -11,4 +11,3 @@ pip install -r requirements.txt
 func start
 
 設計資料
-https://oval-accordion-b2b.notion.site/9d049a9ce606467f9ccfa592bfd807b6?pvs=4
