@@ -62,7 +62,20 @@ def create_room_images(req: func.HttpRequest) -> func.HttpResponse:
     
     # items から "user_id" と "name" のみを抽出したリストを作成する
     user_items = [{"user_id": item["id"], "name": item["name"]} for item in items]
-    image_items = [item["images"] for item in items]
+
+    image_items = []
+    image_id_counter = 1
+    for item in items:
+        user_id = item["id"]
+        images = item["images"]
+        for image in images:
+            image_items.append({
+                "user_id": user_id,
+                "image_id": image_id_counter,
+                "emotion": image["emotion"],
+                "url": image["url"]
+            })
+            image_id_counter += 1
 
     new_room = {
         'id': room_id,
