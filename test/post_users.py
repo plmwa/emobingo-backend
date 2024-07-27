@@ -30,7 +30,7 @@ encode3 = base64.b64encode(data).decode('utf-8')
 payload = {
     "id" : str(uuid4()),#photonのuserIDを入れる
     "name": "しばさき",
-    "room_id":"20240724",#ここはphotonのroomIDを入れる
+    "room_id":"test",#ここはphotonのroomIDを入れる
     "images": [
         {
             "emotion":"smile",
