@@ -16,8 +16,11 @@ logger = getLogger(__name__)
 load_dotenv()
 
 
-client = CosmosClient.from_connection_string(conn_str=os.getenv("COSMOS_CONNECTION_STRING")) 
-database_name = "cosmicworks"
+client = CosmosClient(
+    url=os.getenv("COSMOS_CONNECTION_URL"),
+    credential=os.getenv("COSMOS_CONNECTION_KEY")
+)
+database_name = "Emobingo"
 
 database = client.get_database_client(database_name)
 container_Users = database.get_container_client("Users")

@@ -1,4 +1,4 @@
-本番環境のときはkeyは環境変数にいれる
+localブランチ
 
 installするもの
 CosmosDBエミュレータ
