@@ -9,6 +9,7 @@ data = {
     "room_id": "20240724"
 }
 
+
 try:
     # POSTリクエストを送信
     response = requests.post(url, json=data)
