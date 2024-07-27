@@ -6,7 +6,7 @@ url = "http://localhost:7071/api/rooms/"
 
 # 送信したいデータ (例として、JSON形式でデータを定義)
 data = {
-    "room_id": "20040302"
+    "room_id": "20240724"
 }
 
 try:

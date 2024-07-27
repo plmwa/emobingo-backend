@@ -10,9 +10,9 @@ headers={
     "Content-Type":"application/json"
 }
 # JSONペイロード
-target_file1 ='C:/Users/murai genta/Documents/wakayama/class/emobingo/rest_function/test/images/smile.jpg'
-target_file2 ='C:/Users/murai genta/Documents/wakayama/class/emobingo/rest_function/test/images/angry.jpg'
-target_file3 ='C:/Users/murai genta/Documents/wakayama/class/emobingo/rest_function/test/images/cry.jpg'
+target_file1 ="C:/Users/towns/Documents/wakayama/class/DIE/emobingo-backend/test/images/smile.jpg"
+target_file2 ="C:/Users/towns/Documents/wakayama/class/DIE/emobingo-backend/test/images/angry.jpg"
+target_file3 ="C:/Users/towns/Documents/wakayama/class/DIE/emobingo-backend/test/images/cry.jpg"
 #なんか相対パスだと動かない、なぜ？？？？？
 with open(target_file1, 'rb') as f:
     data = f.read()
@@ -29,8 +29,8 @@ encode3 = base64.b64encode(data).decode('utf-8')
 
 payload = {
     "id" : str(uuid4()),#photonのuserIDを入れる
-    "name": "testuser10",
-    "room_id":"20040302",#ここはphotonのroomIDを入れる
+    "name": "しばさき",
+    "room_id":"20240724",#ここはphotonのroomIDを入れる
     "images": [
         {
             "emotion":"smile",
