@@ -6,27 +6,23 @@ import json
 from dotenv import load_dotenv
 import os
 from azure.storage.blob import BlobServiceClient
-import os
 import base64
 import uuid
 import json
 
 logger = getLogger(__name__)
 
-client = CosmosClient(
-    url="https://localhost:8081",
-    credential=(
-        "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="
-    ),
-)
 
+load_dotenv()
+
+
+client = CosmosClient.from_connection_string(conn_str=os.getenv("COSMOS_CONNECTION_STRING")) 
 database_name = "cosmicworks"
 
 database = client.get_database_client(database_name)
 container_Users = database.get_container_client("Users")
 container_Rooms = database.get_container_client("Rooms")
 
-load_dotenv()
 connect_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
 blob_service_client = BlobServiceClient.from_connection_string(connect_str)
 
