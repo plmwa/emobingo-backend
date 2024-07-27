@@ -1,12 +1,14 @@
 from azure.cosmos import CosmosClient, PartitionKey
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 client = CosmosClient(
-    url="https://localhost:8081",
-    credential=(
-        "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="
-    ),
+    url=os.getenv("COSMOS_CONNECTION_URL"),
+    credential=os.getenv("COSMOS_CONNECTION_KEY")
 )
 database = client.create_database_if_not_exists(
-    id="cosmicworks",
+    id="Emobingo",
     offer_throughput=400,
 )
 
